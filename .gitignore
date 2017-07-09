@@ -4,3 +4,4 @@ target
 *.iml
 log
 /patches/
+/patches/patch1/Prepare_to_HW0.patch

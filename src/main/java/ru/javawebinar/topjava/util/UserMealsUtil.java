@@ -25,6 +25,7 @@ public class UserMealsUtil {
         System.out.println(getFilteredWithExceededByCycle(mealList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000).toString());
 
     }
+    // с использованием стримов
     public static List<UserMealWithExceed> getFilteredWithExceeded(Collection<UserMeal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         Map<LocalDate, Integer> caloriesSumByDate = meals.stream()
                 .collect(

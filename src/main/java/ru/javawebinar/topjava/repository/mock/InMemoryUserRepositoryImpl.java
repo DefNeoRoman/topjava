@@ -45,18 +45,26 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     @Override
     public User get(int id) {
         log.info("get {}", id);
-        return null;
+        return userRepository.get(id);
     }
 
     @Override
     public List<User> getAll() {
         log.info("getAll");
-        return Collections.emptyList();
+        List<User> userList = (List<User>) userRepository.values();
+        Collections.sort(userList);
+        return userList;
     }
 
     @Override
     public User getByEmail(String email) {
+        User retUser = new User();
+        for(User user: userRepository.values()){
+            if(user.getEmail().equals(email)){
+                retUser = user;
+            }
+        }
         log.info("getByEmail {}", email);
-        return null;
+        return retUser;
     }
 }

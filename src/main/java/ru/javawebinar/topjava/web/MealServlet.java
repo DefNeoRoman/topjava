@@ -68,7 +68,7 @@ public class MealServlet extends HttpServlet {
         } else {
             m = storage.get(Integer.parseInt(uuid));
             m.setCalories(Integer.parseInt(calories));
-           
+
         }
     }
 

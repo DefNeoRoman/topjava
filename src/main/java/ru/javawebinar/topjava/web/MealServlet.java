@@ -39,34 +39,39 @@ public class MealServlet extends HttpServlet {
                 Integer.valueOf(request.getParameter("calories")));
 
         log.info(meal.isNew() ? "Create {}" : "Update {}", meal);
-        repository.save(meal);
+        repository.save(meal,meal.getId());
         response.sendRedirect("meals");
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-
+        String role = request.getParameter("role");
+        int userId = 0;
+        if(role.equals("user")){
+            userId = 1;
+        }
         switch (action == null ? "all" : action) {
             case "delete":
                 int id = getId(request);
                 log.info("Delete {}", id);
-                repository.delete(id);
+                repository.delete(id,userId);
                 response.sendRedirect("meals");
                 break;
             case "create":
             case "update":
                 final Meal meal = "create".equals(action) ?
                         new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
-                        repository.get(getId(request));
+                        repository.get(getId(request),userId);
                 request.setAttribute("meal", meal);
                 request.getRequestDispatcher("/meal.jsp").forward(request, response);
                 break;
             case "all":
             default:
                 log.info("getAll");
+
                 request.setAttribute("meals",
-                        MealsUtil.getWithExceeded(repository.getAll(), MealsUtil.DEFAULT_CALORIES_PER_DAY));
+                        MealsUtil.getWithExceeded(repository.getAll(userId), MealsUtil.DEFAULT_CALORIES_PER_DAY));
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
         }

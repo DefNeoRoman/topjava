@@ -21,14 +21,14 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     private AtomicInteger counter = new AtomicInteger(0);
 
     {
-        User user1 = new User();
-        User user2 = new User();
-        save(user1);
-        save(user2);
+        save(new User());
+        save(new User());
+
     }
     @Override
     public boolean delete(int id) {
         log.info("delete {}", id);
+        userRepository.remove(id);
         return true;
     }
 
